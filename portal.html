@@ -1,0 +1,1849 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearPro Aligner Portal</title>
+    <style>
+        :root {
+            --primary: #2c7fb8;
+            --secondary: #7fcdbb;
+            --light: #f0f8ff;
+            --dark: #253237;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        
+        .logo-main {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-sub {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+            padding: 0 5px;
+        }
+        
+        .nav-tabs li {
+            flex-shrink: 0;
+        }
+        
+        .nav-tabs a {
+            display: block;
+            padding: 12px 15px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .nav-tabs a:hover, .nav-tabs a.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background-color: rgba(44, 127, 184, 0.05);
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 15px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(44, 127, 184, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #236a9c;
+        }
+        
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #dde1e5;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background-color: #138496;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+        
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-approved {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-treatment {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-pending {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .case-id {
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        .case-id:hover {
+            text-decoration: underline;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px 15px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #dee2e6;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .stat-card p {
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .arch-options {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .arch-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #eaeaea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .arch-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(44, 127, 184, 0.05);
+        }
+        
+        .scan-options {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .scan-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #eaeaea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .scan-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(44, 127, 184, 0.05);
+        }
+        
+        .upload-options {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .upload-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #eaeaea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(44, 127, 184, 0.05);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .dashboard-stat {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dashboard-stat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-stat h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .dashboard-stat p {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .teeth-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .teeth-arch {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .teeth-arch-header {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .teeth-arch-content {
+            padding: 15px;
+            background-color: white;
+        }
+        
+        .teeth-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .tooth {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .tooth:hover {
+            border-color: var(--primary);
+            background-color: rgba(44, 127, 184, 0.05);
+        }
+        
+        .tooth.selected {
+            background-color: rgba(44, 127, 184, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .tooth input {
+            display: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .modal-close:hover {
+            color: var(--dark);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.active {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+        
+        .notification.warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 12px 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo-text {
+                align-items: center;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            
+            .nav-tabs.active {
+                display: flex;
+            }
+            
+            .nav-tabs li {
+                width: 100%;
+            }
+            
+            .nav-tabs a {
+                text-align: left;
+                padding: 15px 20px;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .tab-content {
+                padding: 15px;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .scan-options, .arch-options, .upload-options {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .tooth {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .actions .btn {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .notification {
+                width: calc(100% - 40px);
+                right: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .tooth {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Check -->
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = '/';
+        }
+    </script>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Case registered successfully!</span>
+    </div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-image">CP</div>
+                    <div class="logo-text">
+                        <div class="logo-main">ClearPro</div>
+                        <div class="logo-sub">ALIGNER</div>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">DR</div>
+                    <div>
+                        <div id="userDisplayName">Loading...</div>
+                        <small id="userRole">Dental Professional</small>
+                    </div>
+                    <button class="btn btn-sm btn-secondary" id="logoutBtn" style="margin-left: 10px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul class="nav-tabs" id="navTabs">
+                <li><a href="#" class="nav-link active" data-tab="dashboard">Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-tab="new-case">Register New Case</a></li>
+                <li><a href="#" class="nav-link" data-tab="all-cases">All Cases</a></li>
+                <li><a href="#" class="nav-link" data-tab="approved-cases">Approved Cases</a></li>
+                <li><a href="#" class="nav-link" data-tab="pending-cases">Pending Approval</a></li>
+                <li><a href="#" class="nav-link" data-tab="treatment-cases">Pending Treatment Plan</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h2 class="section-title">Dashboard</h2>
+            
+            <div class="dashboard-stats">
+                <div class="dashboard-stat" data-tab="new-case">
+                    <h3 id="new-cases-count">0</h3>
+                    <p>New Cases</p>
+                </div>
+                <div class="dashboard-stat" data-tab="pending-cases">
+                    <h3 id="pending-approval-count">0</h3>
+                    <p>Pending Approval</p>
+                </div>
+                <div class="dashboard-stat" data-tab="all-cases">
+                    <h3 id="pending-revision-count">0</h3>
+                    <p>Pending Revision</p>
+                </div>
+                <div class="dashboard-stat" data-tab="all-cases">
+                    <h3 id="pending-completion-count">0</h3>
+                    <p>Pending Completion</p>
+                </div>
+                <div class="dashboard-stat" data-tab="approved-cases">
+                    <h3 id="completed-cases-count">0</h3>
+                    <p>Completed Cases</p>
+                </div>
+                <div class="dashboard-stat" data-tab="all-cases">
+                    <h3 id="messages-count">0</h3>
+                    <p>Messages</p>
+                </div>
+                <div class="dashboard-stat" data-tab="all-cases">
+                    <h3 id="cancelled-cases-count">0</h3>
+                    <p>Cancelled Cases</p>
+                </div>
+                <div class="dashboard-stat" data-tab="all-cases">
+                    <h3 id="on-hold-count">0</h3>
+                    <p>On Hold</p>
+                </div>
+            </div>
+            
+            <h3 class="section-title">Recent Cases</h3>
+            <div class="table-container">
+                <table id="recent-cases-table">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Cases will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Register New Case Tab -->
+        <div id="new-case" class="tab-content">
+            <h2 class="section-title">Register New Case</h2>
+            
+            <form id="case-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="case-id">Case ID</label>
+                        <input type="text" id="case-id" placeholder="Auto-generated" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-date">Order Date</label>
+                        <input type="date" id="order-date" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="doctor">Doctor</label>
+                        <input type="text" id="doctor" value="Dr. Hilda Naeimi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patient">Patient</label>
+                        <input type="text" id="patient" placeholder="Enter patient name" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" placeholder="Enter patient age" required>
+                    </div>
+                </div>
+                
+                <!-- Impression Type -->
+                <div class="form-group">
+                    <label>Impression Type</label>
+                    <div class="scan-options">
+                        <div class="scan-option selected" data-scan="physical">
+                            <i class="fas fa-print"></i>
+                            <p>Physical Impression</p>
+                        </div>
+                        <div class="scan-option" data-scan="digital">
+                            <i class="fas fa-digital-tachograph"></i>
+                            <p>Digital Scan</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Arch Selection</label>
+                    <div class="arch-options">
+                        <div class="arch-option" data-arch="upper">
+                            <i class="fas fa-teeth"></i>
+                            <p>Upper Arch Only</p>
+                        </div>
+                        <div class="arch-option" data-arch="lower">
+                            <i class="fas fa-teeth-open"></i>
+                            <p>Lower Arch Only</p>
+                        </div>
+                        <div class="arch-option selected" data-arch="both">
+                            <i class="fas fa-teeth"></i>
+                            <p>Both Arches</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Teeth Selection -->
+                <div class="form-group">
+                    <label>Teeth Selection</label>
+                    <div class="teeth-selection">
+                        <!-- Upper Arch -->
+                        <div class="teeth-arch">
+                            <div class="teeth-arch-header">Upper Arch</div>
+                            <div class="teeth-arch-content">
+                                <div class="teeth-row">
+                                    <!-- Upper right molars and premolars -->
+                                    <div class="tooth" data-tooth="18"><input type="checkbox" value="18">18</div>
+                                    <div class="tooth" data-tooth="17"><input type="checkbox" value="17">17</div>
+                                    <div class="tooth" data-tooth="16"><input type="checkbox" value="16">16</div>
+                                    <div class="tooth" data-tooth="15"><input type="checkbox" value="15">15</div>
+                                    <div class="tooth" data-tooth="14"><input type="checkbox" value="14">14</div>
+                                    <div class="tooth" data-tooth="13"><input type="checkbox" value="13">13</div>
+                                    <div class="tooth" data-tooth="12"><input type="checkbox" value="12">12</div>
+                                    <div class="tooth" data-tooth="11"><input type="checkbox" value="11">11</div>
+                                </div>
+                                <div class="teeth-row">
+                                    <!-- Upper front teeth -->
+                                    <div class="tooth" data-tooth="21"><input type="checkbox" value="21">21</div>
+                                    <div class="tooth" data-tooth="22"><input type="checkbox" value="22">22</div>
+                                    <div class="tooth" data-tooth="23"><input type="checkbox" value="23">23</div>
+                                    <div class="tooth" data-tooth="24"><input type="checkbox" value="24">24</div>
+                                    <div class="tooth" data-tooth="25"><input type="checkbox" value="25">25</div>
+                                    <div class="tooth" data-tooth="26"><input type="checkbox" value="26">26</div>
+                                    <div class="tooth" data-tooth="27"><input type="checkbox" value="27">27</div>
+                                    <div class="tooth" data-tooth="28"><input type="checkbox" value="28">28</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Lower Arch -->
+                        <div class="teeth-arch">
+                            <div class="teeth-arch-header">Lower Arch</div>
+                            <div class="teeth-arch-content">
+                                <div class="teeth-row">
+                                    <!-- Lower right molars and premolars -->
+                                    <div class="tooth" data-tooth="48"><input type="checkbox" value="48">48</div>
+                                    <div class="tooth" data-tooth="47"><input type="checkbox" value="47">47</div>
+                                    <div class="tooth" data-tooth="46"><input type="checkbox" value="46">46</div>
+                                    <div class="tooth" data-tooth="45"><input type="checkbox" value="45">45</div>
+                                    <div class="tooth" data-tooth="44"><input type="checkbox" value="44">44</div>
+                                    <div class="tooth" data-tooth="43"><input type="checkbox" value="43">43</div>
+                                    <div class="tooth" data-tooth="42"><input type="checkbox" value="42">42</div>
+                                    <div class="tooth" data-tooth="41"><input type="checkbox" value="41">41</div>
+                                </div>
+                                <div class="teeth-row">
+                                    <!-- Lower front teeth -->
+                                    <div class="tooth" data-tooth="31"><input type="checkbox" value="31">31</div>
+                                    <div class="tooth" data-tooth="32"><input type="checkbox" value="32">32</div>
+                                    <div class="tooth" data-tooth="33"><input type="checkbox" value="33">33</div>
+                                    <div class="tooth" data-tooth="34"><input type="checkbox" value="34">34</div>
+                                    <div class="tooth" data-tooth="35"><input type="checkbox" value="35">35</div>
+                                    <div class="tooth" data-tooth="36"><input type="checkbox" value="36">36</div>
+                                    <div class="tooth" data-tooth="37"><input type="checkbox" value="37">37</div>
+                                    <div class="tooth" data-tooth="38"><input type="checkbox" value="38">38</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="instructions">Special Instructions/Comments</label>
+                    <textarea id="instructions" rows="4" placeholder="Enter any special instructions or comments for the treatment plan"></textarea>
+                </div>
+                
+                <div class="actions">
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Register Case</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- All Cases Tab -->
+        <div id="all-cases" class="tab-content">
+            <h2 class="section-title">All Cases</h2>
+            
+            <div class="table-container">
+                <table id="all-cases-table">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Order Date</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Cases will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Approved Cases Tab -->
+        <div id="approved-cases" class="tab-content">
+            <h2 class="section-title">Approved Cases</h2>
+            
+            <div class="table-container">
+                <table id="approved-cases-table">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Order Date</th>
+                            <th>Doctor</th>
+                            <th>Approval Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Approved cases will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Pending Approval Tab -->
+        <div id="pending-cases" class="tab-content">
+            <h2 class="section-title">Pending Approval Cases</h2>
+            
+            <div class="table-container">
+                <table id="pending-cases-table">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Order Date</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Pending approval cases will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Pending Treatment Plan Tab -->
+        <div id="treatment-cases" class="tab-content">
+            <h2 class="section-title">Pending Treatment Plan Cases</h2>
+            
+            <div class="table-container">
+                <table id="treatment-cases-table">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Order Date</th>
+                            <th>Doctor</th>
+                            <th>Days Since Registration</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Pending treatment plan cases will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Details Modal -->
+    <div class="modal" id="caseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalCaseTitle">Case Details</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div id="modalCaseContent">
+                <!-- Case details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import { 
+            getFirestore, 
+            collection, 
+            getDocs,
+            query,
+            where,
+            orderBy,
+            onSnapshot,
+            addDoc,
+            updateDoc,
+            doc,
+            getDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyATaqGlT7_3dJzhSbyH9zBv_ObLvlruYsA",
+            authDomain: "clearpro-aligner-doctor.firebaseapp.com",
+            projectId: "clearpro-aligner-doctor",
+            storageBucket: "clearpro-aligner-doctor.firebasestorage.app",
+            messagingSenderId: "915744257165",
+            appId: "1:915744257165:web:5b0d0f45d960db40579ec4",
+            measurementId: "G-YT1LX3BHCZ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = {
+            app,
+            db,
+            analytics,
+            firestore: {
+                getFirestore,
+                collection, 
+                getDocs,
+                query,
+                where,
+                orderBy,
+                onSnapshot,
+                addDoc,
+                updateDoc,
+                doc,
+                getDoc,
+                serverTimestamp
+            }
+        };
+
+        console.log("Firebase initialized successfully");
+        
+        // Initialize the application after Firebase is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApplication();
+        });
+    </script>
+
+    <script>
+        // Global variables
+        let db;
+        let casesCollection;
+        let unsubscribeCases;
+
+        // Initialize the entire application
+        function initializeApplication() {
+            console.log("Initializing ClearPro Portal...");
+            
+            // Check login
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = '/';
+                return;
+            }
+
+            // Initialize Firebase
+            if (window.firebaseApp && window.firebaseApp.db) {
+                db = window.firebaseApp.db;
+                casesCollection = collection(db, 'cases');
+                console.log("Firebase connected successfully");
+            } else {
+                console.error("Firebase not initialized");
+                showNotification("Error connecting to database", "error");
+                loadMockData();
+                return;
+            }
+
+            // Initialize all components
+            initializeUserInfo();
+            initializeNavigation();
+            initializeForms();
+            initializeDashboard();
+            
+            // Load data
+            setupRealtimeListeners();
+            
+            console.log("ClearPro Portal initialized successfully");
+        }
+
+        // User management
+        function initializeUserInfo() {
+            const userRole = localStorage.getItem('userRole') || 'Dental Professional';
+            const currentUser = localStorage.getItem('currentUser') || 'dr.hilda';
+            
+            document.getElementById('userDisplayName').textContent = userRole;
+            document.getElementById('userRole').textContent = userRole.split(' - ')[1] || 'Dental Professional';
+            
+            // Set avatar
+            const avatar = document.getElementById('userAvatar');
+            if (userRole.includes('Hilda')) avatar.textContent = 'HN';
+            else if (userRole.includes('Smith')) avatar.textContent = 'DS';
+            else if (userRole.includes('Johnson')) avatar.textContent = 'DJ';
+            else avatar.textContent = 'DR';
+            
+            // Set doctor name in form
+            document.getElementById('doctor').value = userRole.split(' - ')[0] || 'Dr. Hilda Naeimi';
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userRole');
+                window.location.href = '/';
+            });
+        }
+
+        // Navigation
+        function initializeNavigation() {
+            // Tab navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Close mobile menu if open
+                    document.getElementById('navTabs').classList.remove('active');
+                });
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('mobileMenuBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('navTabs').classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('nav')) {
+                    document.getElementById('navTabs').classList.remove('active');
+                }
+            });
+        }
+
+        // Forms
+        function initializeForms() {
+            // Set today's date as default for order date
+            document.getElementById('order-date').valueAsDate = new Date();
+            
+            // Generate case ID
+            generateCaseId();
+            
+            // Modal functionality
+            document.getElementById('modalClose').addEventListener('click', function() {
+                document.getElementById('caseModal').classList.remove('active');
+            });
+            
+            document.getElementById('caseModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Form submission
+            document.getElementById('case-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await handleCaseSubmission(this);
+            });
+            
+            // Form option selections
+            initializeFormOptions();
+        }
+
+        // Form options
+        function initializeFormOptions() {
+            // Scan option selection
+            document.querySelectorAll('.scan-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.scan-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Arch option selection
+            document.querySelectorAll('.arch-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.arch-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Teeth selection
+            document.querySelectorAll('.tooth').forEach(tooth => {
+                tooth.addEventListener('click', function() {
+                    const checkbox = this.querySelector('input');
+                    checkbox.checked = !checkbox.checked;
+                    this.classList.toggle('selected', checkbox.checked);
+                });
+            });
+        }
+
+        // Dashboard
+        function initializeDashboard() {
+            // Dashboard stat cards clickable
+            document.querySelectorAll('.dashboard-stat').forEach(stat => {
+                stat.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    document.querySelector(`.nav-link[data-tab="${tabId}"]`).classList.add('active');
+                    
+                    // Show corresponding content
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Close mobile menu if open
+                    document.getElementById('navTabs').classList.remove('active');
+                });
+            });
+        }
+
+        // Case submission handler
+        async function handleCaseSubmission(form) {
+            // Get form values
+            const caseId = document.getElementById('case-id').value;
+            const orderDate = document.getElementById('order-date').value;
+            const doctor = document.getElementById('doctor').value;
+            const patient = document.getElementById('patient').value;
+            const age = document.getElementById('age').value;
+            const instructions = document.getElementById('instructions').value;
+            
+            // Get selected options
+            const impressionType = document.querySelector('.scan-option.selected').getAttribute('data-scan');
+            const archSelection = document.querySelector('.arch-option.selected').getAttribute('data-arch');
+            
+            // Get selected teeth
+            const selectedTeeth = [];
+            document.querySelectorAll('.tooth input:checked').forEach(checkbox => {
+                selectedTeeth.push(checkbox.value);
+            });
+            
+            try {
+                // Save to Firebase
+                const caseData = {
+                    caseId,
+                    orderDate,
+                    doctor,
+                    patient,
+                    age: parseInt(age),
+                    instructions,
+                    impressionType,
+                    archSelection,
+                    selectedTeeth,
+                    status: "Pending Treatment Plan",
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    submittedBy: localStorage.getItem('currentUser') || 'dr.hilda',
+                    doctorEmail: localStorage.getItem('currentUser') || 'dr.hilda'
+                };
+                
+                // Add to Firebase
+                const docRef = await addDoc(collection(db, 'cases'), caseData);
+                
+                showNotification('Case registered successfully! It will appear in the admin dashboard.');
+                
+                // Reset form
+                form.reset();
+                
+                // Reset form UI
+                document.getElementById('order-date').valueAsDate = new Date();
+                document.querySelectorAll('.tooth').forEach(tooth => {
+                    tooth.classList.remove('selected');
+                    tooth.querySelector('input').checked = false;
+                });
+                
+                // Generate new case ID
+                generateCaseId();
+                
+            } catch (error) {
+                console.error("Error adding case to Firebase: ", error);
+                showNotification('Error registering case. Please try again.', 'error');
+            }
+        }
+
+        // Firebase real-time listeners
+        function setupRealtimeListeners() {
+            try {
+                const currentUser = localStorage.getItem('currentUser') || 'dr.hilda';
+                const casesQuery = query(
+                    casesCollection, 
+                    where('submittedBy', '==', currentUser),
+                    orderBy('createdAt', 'desc')
+                );
+                
+                unsubscribeCases = onSnapshot(casesQuery, (snapshot) => {
+                    const cases = [];
+                    snapshot.forEach((doc) => {
+                        const caseData = doc.data();
+                        caseData.id = doc.id;
+                        cases.push(caseData);
+                    });
+                    
+                    console.log("Real-time update: Loaded", cases.length, "cases for current doctor");
+                    updateDashboardWithFirebaseData(cases);
+                }, (error) => {
+                    console.error("Error in cases real-time listener:", error);
+                    showNotification("Error receiving cases updates", "error");
+                });
+                
+            } catch (error) {
+                console.error("Error setting up cases real-time listener:", error);
+                loadCasesFromFirebase();
+            }
+        }
+
+        // Load cases from Firebase (one-time)
+        async function loadCasesFromFirebase() {
+            try {
+                console.log("Loading cases from Firebase...");
+                
+                const currentUser = localStorage.getItem('currentUser') || 'dr.hilda';
+                const casesQuery = query(
+                    casesCollection, 
+                    where('submittedBy', '==', currentUser),
+                    orderBy('createdAt', 'desc')
+                );
+                
+                const querySnapshot = await getDocs(casesQuery);
+                const cases = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const caseData = doc.data();
+                    caseData.id = doc.id;
+                    cases.push(caseData);
+                });
+                
+                console.log("Loaded cases from Firebase:", cases);
+                
+                // Update dashboard with real data
+                updateDashboardWithFirebaseData(cases);
+                
+            } catch (error) {
+                console.error("Error loading cases from Firebase:", error);
+                showNotification("Error loading data from database", "error");
+                
+                // Fallback to demo data if Firebase fails
+                loadMockData();
+            }
+        }
+
+        // Update dashboard with Firebase data
+        function updateDashboardWithFirebaseData(cases) {
+            // Count cases by status
+            const statusCounts = {
+                total: cases.length,
+                newCases: cases.filter(c => c.status === 'Pending Treatment Plan').length,
+                pendingApproval: cases.filter(c => c.status === 'Pending Approval').length,
+                pendingRevision: cases.filter(c => c.status === 'Pending Revision').length,
+                pendingCompletion: cases.filter(c => c.status === 'Pending Completion').length,
+                completedCases: cases.filter(c => c.status === 'Approved' || c.status === 'Completed').length,
+                cancelledCases: cases.filter(c => c.status === 'Cancelled').length,
+                onHold: cases.filter(c => c.status === 'On Hold').length
+            };
+            
+            // Update dashboard counts
+            document.getElementById('new-cases-count').textContent = statusCounts.newCases;
+            document.getElementById('pending-approval-count').textContent = statusCounts.pendingApproval;
+            document.getElementById('pending-revision-count').textContent = statusCounts.pendingRevision;
+            document.getElementById('pending-completion-count').textContent = statusCounts.pendingCompletion;
+            document.getElementById('completed-cases-count').textContent = statusCounts.completedCases;
+            document.getElementById('cancelled-cases-count').textContent = statusCounts.cancelledCases;
+            document.getElementById('on-hold-count').textContent = statusCounts.onHold;
+            document.getElementById('messages-count').textContent = Math.floor(Math.random() * 5);
+            
+            // Populate tables
+            populateRecentCasesTable(cases);
+            populateAllCasesTable(cases);
+            populateApprovedCasesTable(cases);
+            populatePendingCasesTable(cases);
+            populateTreatmentCasesTable(cases);
+        }
+
+        // Function to generate case ID
+        function generateCaseId() {
+            const currentYear = new Date().getFullYear();
+            const randomNum = Math.floor(Math.random() * 1000);
+            const caseId = `CP-${currentYear}-${randomNum.toString().padStart(3, '0')}`;
+            document.getElementById('case-id').value = caseId;
+        }
+
+        // Function to show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            // Set notification content and type
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type);
+            
+            // Show notification
+            notification.classList.add('active');
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 5000);
+        }
+
+        // Fallback to demo data
+        function loadMockData() {
+            console.log("Loading demo data...");
+            const demoCases = [
+                {
+                    id: 'case1',
+                    caseId: 'CP-2024-001',
+                    patient: 'John Smith',
+                    age: 28,
+                    orderDate: '2024-01-15',
+                    doctor: 'Dr. Hilda Naeimi',
+                    status: 'Pending Treatment Plan',
+                    instructions: 'Mild crowding, needs IPR',
+                    impressionType: 'digital',
+                    archSelection: 'both',
+                    selectedTeeth: ['11', '12', '21', '22'],
+                    createdAt: new Date('2024-01-15'),
+                    updatedAt: new Date('2024-01-15')
+                }
+            ];
+            
+            updateDashboardWithFirebaseData(demoCases);
+            showNotification("Using demo data - Firebase connection failed", "warning");
+        }
+
+        // Function to populate recent cases table
+        function populateRecentCasesTable(cases) {
+            const tableBody = document.querySelector('#recent-cases-table tbody');
+            tableBody.innerHTML = '';
+            
+            // Show only the 5 most recent cases
+            const recentCases = cases.slice(0, 5);
+            
+            if (recentCases.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="empty-state">No cases found</td></tr>';
+                return;
+            }
+            
+            recentCases.forEach(caseData => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="case-id" data-case-id="${caseData.id}">${caseData.caseId}</td>
+                    <td>${caseData.patient}</td>
+                    <td>${caseData.age}</td>
+                    <td>${caseData.orderDate}</td>
+                    <td><span class="status ${getStatusClass(caseData.status)}">${caseData.status}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to case IDs
+            document.querySelectorAll('#recent-cases-table .case-id').forEach(caseId => {
+                caseId.addEventListener('click', function() {
+                    const caseId = this.getAttribute('data-case-id');
+                    showCaseDetails(caseId);
+                });
+            });
+        }
+
+        function populateAllCasesTable(cases) {
+            const tableBody = document.querySelector('#all-cases-table tbody');
+            tableBody.innerHTML = '';
+            
+            if (cases.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="empty-state">No cases found</td></tr>';
+                return;
+            }
+            
+            cases.forEach(caseData => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="case-id" data-case-id="${caseData.id}">${caseData.caseId}</td>
+                    <td>${caseData.patient}</td>
+                    <td>${caseData.age}</td>
+                    <td>${caseData.orderDate}</td>
+                    <td>${caseData.doctor}</td>
+                    <td><span class="status ${getStatusClass(caseData.status)}">${caseData.status}</span></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm view-case" data-case-id="${caseData.id}">View</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons and case IDs
+            document.querySelectorAll('#all-cases-table .view-case, #all-cases-table .case-id').forEach(element => {
+                element.addEventListener('click', function() {
+                    const caseId = this.getAttribute('data-case-id');
+                    showCaseDetails(caseId);
+                });
+            });
+        }
+
+        function populateApprovedCasesTable(cases) {
+            const tableBody = document.querySelector('#approved-cases-table tbody');
+            tableBody.innerHTML = '';
+            
+            const approvedCases = cases.filter(caseData => 
+                caseData.status === "Approved" || caseData.status === "Completed"
+            );
+            
+            if (approvedCases.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="empty-state">No approved cases found</td></tr>';
+                return;
+            }
+            
+            approvedCases.forEach(caseData => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="case-id" data-case-id="${caseData.id}">${caseData.caseId}</td>
+                    <td>${caseData.patient}</td>
+                    <td>${caseData.age}</td>
+                    <td>${caseData.orderDate}</td>
+                    <td>${caseData.doctor}</td>
+                    <td>${caseData.updatedAt ? new Date(caseData.updatedAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm view-case" data-case-id="${caseData.id}">View</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons and case IDs
+            document.querySelectorAll('#approved-cases-table .view-case, #approved-cases-table .case-id').forEach(element => {
+                element.addEventListener('click', function() {
+                    const caseId = this.getAttribute('data-case-id');
+                    showCaseDetails(caseId);
+                });
+            });
+        }
+
+        function populatePendingCasesTable(cases) {
+            const tableBody = document.querySelector('#pending-cases-table tbody');
+            tableBody.innerHTML = '';
+            
+            const pendingCases = cases.filter(caseData => caseData.status === "Pending Approval");
+            
+            if (pendingCases.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="empty-state">No pending approval cases found</td></tr>';
+                return;
+            }
+            
+            pendingCases.forEach(caseData => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="case-id" data-case-id="${caseData.id}">${caseData.caseId}</td>
+                    <td>${caseData.patient}</td>
+                    <td>${caseData.age}</td>
+                    <td>${caseData.orderDate}</td>
+                    <td>${caseData.doctor}</td>
+                    <td><span class="status ${getStatusClass(caseData.status)}">${caseData.status}</span></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm view-case" data-case-id="${caseData.id}">View</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons and case IDs
+            document.querySelectorAll('#pending-cases-table .view-case, #pending-cases-table .case-id').forEach(element => {
+                element.addEventListener('click', function() {
+                    const caseId = this.getAttribute('data-case-id');
+                    showCaseDetails(caseId);
+                });
+            });
+        }
+
+        function populateTreatmentCasesTable(cases) {
+            const tableBody = document.querySelector('#treatment-cases-table tbody');
+            tableBody.innerHTML = '';
+            
+            const treatmentCases = cases.filter(caseData => caseData.status === "Pending Treatment Plan");
+            
+            if (treatmentCases.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="empty-state">No pending treatment plan cases found</td></tr>';
+                return;
+            }
+            
+            treatmentCases.forEach(caseData => {
+                // Calculate days since registration
+                const orderDate = new Date(caseData.orderDate);
+                const today = new Date();
+                const diffTime = Math.abs(today - orderDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="case-id" data-case-id="${caseData.id}">${caseData.caseId}</td>
+                    <td>${caseData.patient}</td>
+                    <td>${caseData.age}</td>
+                    <td>${caseData.orderDate}</td>
+                    <td>${caseData.doctor}</td>
+                    <td>${diffDays}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm view-case" data-case-id="${caseData.id}">View</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons and case IDs
+            document.querySelectorAll('#treatment-cases-table .view-case, #treatment-cases-table .case-id').forEach(element => {
+                element.addEventListener('click', function() {
+                    const caseId = this.getAttribute('data-case-id');
+                    showCaseDetails(caseId);
+                });
+            });
+        }
+
+        // Function to show case details in modal
+        async function showCaseDetails(caseId) {
+            try {
+                const caseDoc = await getDoc(doc(db, 'cases', caseId));
+                if (caseDoc.exists()) {
+                    const caseData = caseDoc.data();
+                    
+                    // Populate modal with case data
+                    document.getElementById('modalCaseTitle').textContent = `Case: ${caseData.caseId}`;
+                    document.getElementById('modalCaseContent').innerHTML = `
+                        <div class="case-info">
+                            <div class="info-item">
+                                <span class="info-label">Patient:</span>
+                                <span class="info-value">${caseData.patient}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Age:</span>
+                                <span class="info-value">${caseData.age}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value status ${getStatusClass(caseData.status)}">${caseData.status}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Instructions:</span>
+                                <span class="info-value">${caseData.instructions || 'None'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Impression Type:</span>
+                                <span class="info-value">${caseData.impressionType}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Arch Selection:</span>
+                                <span class="info-value">${caseData.archSelection}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('caseModal').classList.add('active');
+                } else {
+                    showNotification('Case not found', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching case details:', error);
+                showNotification('Error loading case details', 'error');
+            }
+        }
+
+        // Helper function to get status class
+        function getStatusClass(status) {
+            switch(status) {
+                case "Approved":
+                case "Completed":
+                    return "status-approved";
+                case "Pending Treatment Plan":
+                    return "status-treatment";
+                case "Pending Approval":
+                case "Pending Revision":
+                    return "status-pending";
+                default:
+                    return "";
+            }
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (unsubscribeCases) unsubscribeCases();
+        });
+    </script>
+</body>
+</html>
