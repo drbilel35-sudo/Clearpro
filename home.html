@@ -1,0 +1,510 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearPro Aligner - Complete System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c7fb8;
+            --primary-dark: #1e5a8a;
+            --secondary: #7fcdbb;
+            --light: #f0f8ff;
+            --dark: #253237;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .logo-main {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+        
+        .logo-sub {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray);
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+        
+        .system-description {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--primary);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .card-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-features i {
+            color: var(--success);
+            width: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: #6bc0a8;
+        }
+        
+        .system-flow {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+        
+        .flow-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        .flow-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: var(--light-gray);
+            z-index: 1;
+        }
+        
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 3px solid var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .flow-step.active .step-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.active {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+            border-top: 1px solid var(--light-gray);
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .flow-steps::before {
+                display: none;
+            }
+            
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">CP</div>
+                <div class="logo-text">
+                    <div class="logo-main">ClearPro</div>
+                    <div class="logo-sub">ALIGNER SYSTEM</div>
+                </div>
+            </div>
+            <p class="system-description">
+                A comprehensive platform connecting dental professionals with the ClearPro Aligner administration team. 
+                Submit cases, track progress, and manage treatment plans seamlessly.
+            </p>
+        </div>
+        
+        <div class="card-container">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Doctor Portal</h3>
+                    <p class="card-subtitle">For Dental Professionals</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        Access the portal to register new cases, upload patient scans, track case progress, and communicate with the ClearPro team.
+                    </p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-check-circle"></i> Register new aligner cases</li>
+                        <li><i class="fas fa-check-circle"></i> Upload digital scans and impressions</li>
+                        <li><i class="fas fa-check-circle"></i> Track case status and approvals</li>
+                        <li><i class="fas fa-check-circle"></i> View treatment plans and 3D models</li>
+                    </ul>
+                    <a href="#" class="btn" id="doctorPortalBtn">Access Doctor Portal</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(135deg, #6c757d, #495057);">
+                    <h3 class="card-title">Admin Dashboard</h3>
+                    <p class="card-subtitle">For ClearPro Administrators</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">
+                        Monitor all cases, manage approvals, track production status, and communicate with dental professionals.
+                    </p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-check-circle"></i> View all submitted cases</li>
+                        <li><i class="fas fa-check-circle"></i> Approve or request case revisions</li>
+                        <li><i class="fas fa-check-circle"></i> Track production progress</li>
+                        <li><i class="fas fa-check-circle"></i> Manage doctor communications</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" id="adminDashboardBtn">Access Admin Dashboard</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="system-flow">
+            <h2 class="flow-title">How the System Works</h2>
+            <div class="flow-steps">
+                <div class="flow-step active">
+                    <div class="step-icon">1</div>
+                    <h3 class="step-title">Doctor Registers Case</h3>
+                    <p class="step-description">Dentist submits patient case with scans and treatment requirements</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-icon">2</div>
+                    <h3 class="step-title">Case Appears in Dashboard</h3>
+                    <p class="step-description">Case automatically appears in admin dashboard for review</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-icon">3</div>
+                    <h3 class="step-title">Admin Reviews & Approves</h3>
+                    <p class="step-description">ClearPro team reviews case and approves or requests changes</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-icon">4</div>
+                    <h3 class="step-title">Treatment Plan Created</h3>
+                    <p class="step-description">Custom treatment plan with 3D models is created and shared</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 ClearPro Aligner. All rights reserved.</p>
+            <p>Contact: <a href="mailto:support@clearproaligner.com">support@clearproaligner.com</a></p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Operation completed successfully</span>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyATaqGlT7_3dJzhSbyH9zBv_ObLvlruYsA",
+            authDomain: "clearpro-aligner-doctor.firebaseapp.com",
+            projectId: "clearpro-aligner-doctor",
+            storageBucket: "clearpro-aligner-doctor.firebasestorage.app",
+            messagingSenderId: "915744257165",
+            appId: "1:915744257165:web:5b0d0f45d960db40579ec4",
+            measurementId: "G-YT1LX3BHCZ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = {
+            app,
+            db,
+            analytics,
+            collections: {
+                cases: 'cases',
+                users: 'users',
+                messages: 'messages'
+            }
+        };
+
+        console.log("Firebase initialized successfully");
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userType = localStorage.getItem('userType');
+            
+            // Redirect if already logged in
+            if (isLoggedIn === 'true') {
+                if (userType === 'admin') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'portal.html';
+                }
+            }
+            
+            // Doctor Portal Button
+            document.getElementById('doctorPortalBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            });
+            
+            // Admin Dashboard Button
+            document.getElementById('adminDashboardBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            });
+            
+            // Show notification
+            function showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const notificationText = document.getElementById('notification-text');
+                
+                notificationText.textContent = message;
+                notification.className = 'notification';
+                if (type === 'error') {
+                    notification.classList.add('error');
+                }
+                notification.classList.add('active');
+                
+                setTimeout(() => {
+                    notification.classList.remove('active');
+                }, 4000);
+            }
+            
+            // Test Firebase connection
+            if (window.firebaseApp && window.firebaseApp.db) {
+                console.log("Firebase is connected successfully");
+                showNotification("System connected to database", "success");
+            } else {
+                console.error("Firebase connection failed");
+                showNotification("Database connection failed - using demo mode", "error");
+            }
+        });
+    </script>
+</body>
+</html>
