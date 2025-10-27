@@ -3,11 +3,23 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the correct directories
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname))); // For root-level files if needed
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes for each page
+// Serve static files from root directory
+app.use(express.static(__dirname));
+
+// API routes (if you need them)
+app.get('/api/health', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        service: 'ClearPro Aligner System',
+        timestamp: new Date().toISOString() 
+    });
+});
+
+// HTML routes - serve your pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -20,18 +32,14 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin-dashboard.html'));
 });
 
-// API endpoint for health check
-app.get('/health', (req, res) => {
-    res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
-
-// Catch all handler - important for SPAs
+// Catch-all handler for SPA routing
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`ClearPro Aligner server running on port ${PORT}`);
-    console.log(`Access the application at: http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 ClearPro Aligner Web Service running on port ${PORT}`);
+    console.log(`📍 Local: http://localhost:${PORT}`);
+    console.log(`🌐 Production: https://clearpro.onrender.com`);
 });
