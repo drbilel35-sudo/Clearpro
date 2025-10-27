@@ -3,8 +3,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files
-app.use(express.static('.'));
+// Serve static files from the correct directories
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname))); // For root-level files if needed
 
 // Routes for each page
 app.get('/', (req, res) => {
@@ -22,6 +23,11 @@ app.get('/admin', (req, res) => {
 // API endpoint for health check
 app.get('/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Catch all handler - important for SPAs
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start server
