@@ -38,6 +38,24 @@ app.get('/health', (req, res) => {
     });
 });
 
+// ✅ ADD THESE LOGOUT ROUTES
+app.post('/api/logout', (req, res) => {
+    // If using sessions, you would destroy the session here
+    // For now, we'll just return success and let frontend handle redirect
+    console.log('Logout request received');
+    res.json({ 
+        success: true, 
+        message: 'Logged out successfully',
+        redirect: '/'
+    });
+});
+
+app.get('/logout', (req, res) => {
+    // Simple GET logout for direct links
+    console.log('GET logout request');
+    res.redirect('/');
+});
+
 // Catch-all for SPA routing
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
