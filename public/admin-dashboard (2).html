@@ -1,0 +1,1946 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearPro Aligner - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c7fb8;
+            --primary-dark: #1e5a8a;
+            --secondary: #7fcdbb;
+            --light: #f0f8ff;
+            --dark: #253237;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --border-color: #e0e0e0;
+            --text-primary: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-container {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: var(--header-height);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gray);
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+        
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: rgba(44, 127, 184, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-badge {
+            background: var(--danger);
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            margin-left: auto;
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .header {
+            height: var(--header-height);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--light-gray);
+            border-radius: 30px;
+            width: 250px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 127, 184, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .logout-header-btn {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .logout-header-btn:hover {
+            background: var(--danger);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .notification-icon {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .notification-icon:hover {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+            cursor: pointer;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card.pending {
+            border-left-color: var(--warning);
+        }
+        
+        .stat-card.hold {
+            border-left-color: var(--info);
+        }
+        
+        .stat-card.revision {
+            border-left-color: var(--danger);
+        }
+        
+        .stat-card.completed {
+            border-left-color: var(--success);
+        }
+        
+        .stat-card.cancelled {
+            border-left-color: var(--gray);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.pending {
+            background: var(--warning);
+        }
+        
+        .stat-icon.hold {
+            background: var(--info);
+        }
+        
+        .stat-icon.revision {
+            background: var(--danger);
+        }
+        
+        .stat-icon.completed {
+            background: var(--success);
+        }
+        
+        .stat-icon.cancelled {
+            background: var(--gray);
+        }
+        
+        .stat-icon.primary {
+            background: var(--primary);
+        }
+        
+        .stat-info {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .dashboard-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .dashboard-section.active {
+            display: block;
+        }
+        
+        .section-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(44, 127, 184, 0.1);
+        }
+        
+        .section-content {
+            padding: 0;
+        }
+        
+        .cases-list, .messages-list, .doctors-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .case-item, .message-item, .doctor-item {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .case-item:last-child, .message-item:last-child, .doctor-item:last-child {
+            border-bottom: none;
+        }
+        
+        .case-item:hover, .message-item:hover, .doctor-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .case-info, .message-info, .doctor-info {
+            flex: 1;
+        }
+        
+        .case-id, .message-subject, .doctor-name {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .case-patient, .message-preview, .doctor-specialty {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .case-dentist, .message-sender, .doctor-email {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .case-status, .message-status, .doctor-status {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-revision {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-hold {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-cancelled {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .case-actions, .message-actions, .doctor-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: rgba(44, 127, 184, 0.1);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.active {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background-color: var(--danger);
+        }
+        
+        .notification.warning {
+            background-color: var(--warning);
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #dee2e6;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .setting-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .setting-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .setting-option {
+            margin-bottom: 15px;
+        }
+        
+        .setting-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .setting-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .setting-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .sidebar-nav {
+                display: flex;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+            
+            .nav-item {
+                flex-shrink: 0;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .nav-item:hover, .nav-item.active {
+                border-left: none;
+                border-bottom: 3px solid var(--primary);
+            }
+            
+            .sidebar-footer {
+                display: none;
+            }
+            
+            .header {
+                padding: 0 15px;
+            }
+            
+            .search-box input {
+                width: 180px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .section-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .case-item, .message-item, .doctor-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .case-status, .message-status, .doctor-status {
+                align-self: flex-start;
+            }
+            
+            .case-actions, .message-actions, .doctor-actions {
+                align-self: flex-end;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                display: none;
+            }
+            
+            .logo-text {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard -->
+    <div id="dashboardPage">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="logo-icon">CP</div>
+                    <div class="logo-text">
+                        <div class="logo-main">ClearPro</div>
+                        <div class="logo-sub">ALIGNER</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <a class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-item" data-section="pending-cases">
+                    <i class="fas fa-upload"></i>
+                    <span>Pending Upload</span>
+                    <span class="nav-badge" id="pending-badge">0</span>
+                </a>
+                <a class="nav-item" data-section="revision-cases">
+                    <i class="fas fa-redo"></i>
+                    <span>Revision Requests</span>
+                    <span class="nav-badge" id="revision-badge">0</span>
+                </a>
+                <a class="nav-item" data-section="hold-cases">
+                    <i class="fas fa-pause-circle"></i>
+                    <span>Cases On Hold</span>
+                    <span class="nav-badge" id="hold-badge">0</span>
+                </a>
+                <a class="nav-item" data-section="cancelled-cases">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Cancelled Cases</span>
+                    <span class="nav-badge" id="cancelled-badge">0</span>
+                </a>
+                <a class="nav-item" data-section="messages">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                    <span class="nav-badge" id="messages-badge">0</span>
+                </a>
+                <a class="nav-item" data-section="doctors">
+                    <i class="fas fa-users"></i>
+                    <span>Doctors</span>
+                </a>
+                <a class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="admin-name">System Administrator</div>
+                        <div class="user-role">Admin Account</div>
+                    </div>
+                    <button class="logout-btn" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="page-title" id="pageTitle">Dashboard</div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search cases, patients..." id="searchInput">
+                    </div>
+                    <button class="logout-header-btn" id="logoutHeaderBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                    <button class="notification-icon" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="content">
+                <!-- Dashboard Section -->
+                <div class="dashboard-section active" id="dashboard">
+                    <!-- Stats Cards -->
+                    <div class="stats-cards">
+                        <div class="stat-card" data-section="pending-cases">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="total-cases">0</div>
+                                <div class="stat-label">Total Cases</div>
+                            </div>
+                        </div>
+                        <div class="stat-card pending" data-section="pending-cases">
+                            <div class="stat-icon pending">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="pending-cases">0</div>
+                                <div class="stat-label">Pending Upload</div>
+                            </div>
+                        </div>
+                        <div class="stat-card revision" data-section="revision-cases">
+                            <div class="stat-icon revision">
+                                <i class="fas fa-redo"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="revision-cases">0</div>
+                                <div class="stat-label">Revision Requests</div>
+                            </div>
+                        </div>
+                        <div class="stat-card hold" data-section="hold-cases">
+                            <div class="stat-icon hold">
+                                <i class="fas fa-pause-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="hold-cases">0</div>
+                                <div class="stat-label">Cases On Hold</div>
+                            </div>
+                        </div>
+                        <div class="stat-card cancelled" data-section="cancelled-cases">
+                            <div class="stat-icon cancelled">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="cancelled-cases">0</div>
+                                <div class="stat-label">Cancelled Cases</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="dashboard-section active">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-history"></i>
+                                Recent Activity
+                            </div>
+                            <div class="section-actions">
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <button class="btn btn-primary" id="refreshBtn">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <div class="cases-list" id="recent-activity">
+                                <div class="loading">
+                                    <div class="spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pending Cases Section -->
+                <div class="dashboard-section" id="pending-cases">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-upload"></i>
+                            Cases Pending For Files Upload
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-primary" id="refreshPendingBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="cases-list" id="pending-cases-list">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Revision Cases Section -->
+                <div class="dashboard-section" id="revision-cases">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-redo"></i>
+                            Revision Requests
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-primary" id="refreshRevisionBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="cases-list" id="revision-cases-list">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hold Cases Section -->
+                <div class="dashboard-section" id="hold-cases">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-pause-circle"></i>
+                            Cases On Hold
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-primary" id="refreshHoldBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="cases-list" id="hold-cases-list">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cancelled Cases Section -->
+                <div class="dashboard-section" id="cancelled-cases">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-times-circle"></i>
+                            Cancelled Cases
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-primary" id="refreshCancelledBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="cases-list" id="cancelled-cases-list">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Messages Section -->
+                <div class="dashboard-section" id="messages">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-comments"></i>
+                            Messages
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-primary" id="refreshMessagesBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="messages-list" id="messages-list">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Doctors Section -->
+                <div class="dashboard-section" id="doctors">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-users"></i>
+                            Doctors
+                        </div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <button class="btn btn-primary" id="refreshDoctorsBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="doctors-list" id="doctors-list">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div class="dashboard-section" id="settings">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="settings-grid">
+                            <div class="setting-card">
+                                <div class="setting-title">System Settings</div>
+                                <div class="setting-option">
+                                    <label class="setting-label">Clinic Name</label>
+                                    <input type="text" class="setting-input" id="clinicName" placeholder="Enter clinic name">
+                                </div>
+                                <div class="setting-option">
+                                    <label class="setting-label">Auto-refresh Interval</label>
+                                    <select class="setting-input" id="refreshInterval">
+                                        <option value="30000">30 seconds</option>
+                                        <option value="60000">1 minute</option>
+                                        <option value="300000">5 minutes</option>
+                                        <option value="900000">15 minutes</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary" id="saveSystemSettings">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                            
+                            <div class="setting-card">
+                                <div class="setting-title">Notification Settings</div>
+                                <div class="setting-option">
+                                    <label class="setting-label">
+                                        <input type="checkbox" id="emailNotifications" checked> Email Notifications
+                                    </label>
+                                </div>
+                                <div class="setting-option">
+                                    <label class="setting-label">
+                                        <input type="checkbox" id="pushNotifications" checked> Push Notifications
+                                    </label>
+                                </div>
+                                <div class="setting-option">
+                                    <label class="setting-label">
+                                        <input type="checkbox" id="caseUpdates" checked> Case Update Alerts
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary" id="saveNotificationSettings">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Operation completed successfully</span>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import { 
+            getFirestore, 
+            collection, 
+            getDocs,
+            query,
+            where,
+            orderBy,
+            onSnapshot,
+            addDoc,
+            updateDoc,
+            doc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyATaqGlT7_3dJzhSbyH9zBv_ObLvlruYsA",
+            authDomain: "clearpro-aligner-doctor.firebaseapp.com",
+            projectId: "clearpro-aligner-doctor",
+            storageBucket: "clearpro-aligner-doctor.firebasestorage.app",
+            messagingSenderId: "915744257165",
+            appId: "1:915744257165:web:5b0d0f45d960db40579ec4",
+            measurementId: "G-YT1LX3BHCZ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = {
+            app,
+            db,
+            analytics,
+            collections: {
+                cases: 'cases',
+                users: 'users',
+                messages: 'messages',
+                doctors: 'doctors',
+                settings: 'settings'
+            }
+        };
+
+        console.log("Firebase initialized successfully");
+    </script>
+
+    <script>
+        // DOM Elements
+        const navItems = document.querySelectorAll('.nav-item');
+        const dashboardSections = document.querySelectorAll('.dashboard-section');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const refreshPendingBtn = document.getElementById('refreshPendingBtn');
+        const refreshRevisionBtn = document.getElementById('refreshRevisionBtn');
+        const refreshHoldBtn = document.getElementById('refreshHoldBtn');
+        const refreshCancelledBtn = document.getElementById('refreshCancelledBtn');
+        const refreshMessagesBtn = document.getElementById('refreshMessagesBtn');
+        const refreshDoctorsBtn = document.getElementById('refreshDoctorsBtn');
+        const saveSystemSettings = document.getElementById('saveSystemSettings');
+        const saveNotificationSettings = document.getElementById('saveNotificationSettings');
+        
+        // Firebase database reference
+        let db;
+        let casesCollection, messagesCollection, doctorsCollection, settingsCollection;
+        let unsubscribeCases, unsubscribeMessages, unsubscribeDoctors;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Firebase
+            if (window.firebaseApp && window.firebaseApp.db) {
+                db = window.firebaseApp.db;
+                casesCollection = collection(db, 'cases');
+                messagesCollection = collection(db, 'messages');
+                doctorsCollection = collection(db, 'doctors');
+                settingsCollection = collection(db, 'settings');
+                
+                setupRealtimeListeners();
+                loadSettings();
+            } else {
+                console.error("Firebase not initialized properly");
+                showNotification("Error connecting to database", "error");
+            }
+            
+            // Navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    switchSection(sectionId);
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Refresh buttons
+            setupRefreshButtons();
+            
+            // Settings buttons
+            if (saveSystemSettings) {
+                saveSystemSettings.addEventListener('click', saveSystemSettingsHandler);
+            }
+            if (saveNotificationSettings) {
+                saveNotificationSettings.addEventListener('click', saveNotificationSettingsHandler);
+            }
+        });
+        
+        // Setup real-time listeners
+        function setupRealtimeListeners() {
+            setupCasesListener();
+            setupMessagesListener();
+            setupDoctorsListener();
+        }
+        
+        // Setup real-time listener for cases
+        function setupCasesListener() {
+            try {
+                const casesQuery = query(casesCollection, orderBy('createdAt', 'desc'));
+                
+                unsubscribeCases = onSnapshot(casesQuery, (snapshot) => {
+                    const cases = [];
+                    snapshot.forEach((doc) => {
+                        const caseData = doc.data();
+                        caseData.id = doc.id;
+                        cases.push(caseData);
+                    });
+                    
+                    console.log("Real-time update: Loaded", cases.length, "cases");
+                    updateDashboardWithFirebaseData(cases);
+                }, (error) => {
+                    console.error("Error in cases real-time listener:", error);
+                    showNotification("Error receiving cases updates", "error");
+                });
+                
+            } catch (error) {
+                console.error("Error setting up cases real-time listener:", error);
+                loadCasesFromFirebase();
+            }
+        }
+        
+        // Setup real-time listener for messages
+        function setupMessagesListener() {
+            try {
+                const messagesQuery = query(messagesCollection, orderBy('timestamp', 'desc'));
+                
+                unsubscribeMessages = onSnapshot(messagesQuery, (snapshot) => {
+                    const messages = [];
+                    snapshot.forEach((doc) => {
+                        const messageData = doc.data();
+                        messageData.id = doc.id;
+                        messages.push(messageData);
+                    });
+                    
+                    console.log("Real-time update: Loaded", messages.length, "messages");
+                    updateMessagesWithFirebaseData(messages);
+                });
+                
+            } catch (error) {
+                console.error("Error setting up messages real-time listener:", error);
+            }
+        }
+        
+        // Setup real-time listener for doctors
+        function setupDoctorsListener() {
+            try {
+                const doctorsQuery = query(doctorsCollection, orderBy('name', 'asc'));
+                
+                unsubscribeDoctors = onSnapshot(doctorsQuery, (snapshot) => {
+                    const doctors = [];
+                    snapshot.forEach((doc) => {
+                        const doctorData = doc.data();
+                        doctorData.id = doc.id;
+                        doctors.push(doctorData);
+                    });
+                    
+                    console.log("Real-time update: Loaded", doctors.length, "doctors");
+                    updateDoctorsWithFirebaseData(doctors);
+                });
+                
+            } catch (error) {
+                console.error("Error setting up doctors real-time listener:", error);
+            }
+        }
+        
+        // Load cases from Firebase (one-time)
+        async function loadCasesFromFirebase() {
+            try {
+                console.log("Loading cases from Firebase...");
+                
+                // Show loading state
+                document.getElementById('recent-activity').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                document.getElementById('pending-cases-list').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                document.getElementById('revision-cases-list').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                document.getElementById('hold-cases-list').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                document.getElementById('cancelled-cases-list').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                
+                // Get all cases from Firebase
+                const querySnapshot = await getDocs(casesCollection);
+                const cases = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const caseData = doc.data();
+                    caseData.id = doc.id;
+                    cases.push(caseData);
+                });
+                
+                console.log("Loaded cases:", cases);
+                
+                // Update dashboard with real data
+                updateDashboardWithFirebaseData(cases);
+                
+            } catch (error) {
+                console.error("Error loading cases from Firebase:", error);
+                showNotification("Error loading data from database", "error");
+                
+                // Fallback to demo data if Firebase fails
+                loadDemoData();
+            }
+        }
+        
+        // Update dashboard with Firebase data
+        function updateDashboardWithFirebaseData(cases) {
+            // Count cases by status
+            const statusCounts = {
+                total: cases.length,
+                pending: cases.filter(c => c.status === 'pending' || c.status === 'Pending').length,
+                revision: cases.filter(c => c.status === 'revision' || c.status === 'Revision').length,
+                hold: cases.filter(c => c.status === 'hold' || c.status === 'Hold').length,
+                cancelled: cases.filter(c => c.status === 'cancelled' || c.status === 'Cancelled').length,
+                completed: cases.filter(c => c.status === 'completed' || c.status === 'Completed').length
+            };
+            
+            // Update stats cards
+            document.getElementById('total-cases').textContent = statusCounts.total;
+            document.getElementById('pending-cases').textContent = statusCounts.pending;
+            document.getElementById('revision-cases').textContent = statusCounts.revision;
+            document.getElementById('hold-cases').textContent = statusCounts.hold;
+            document.getElementById('cancelled-cases').textContent = statusCounts.cancelled;
+            
+            // Update badge counts
+            document.getElementById('pending-badge').textContent = statusCounts.pending;
+            document.getElementById('revision-badge').textContent = statusCounts.revision;
+            document.getElementById('hold-badge').textContent = statusCounts.hold;
+            document.getElementById('cancelled-badge').textContent = statusCounts.cancelled;
+            
+            // Update recent activity
+            updateRecentActivity(cases);
+            
+            // Update pending cases
+            updatePendingCases(cases);
+            
+            // Update revision cases
+            updateRevisionCases(cases);
+            
+            // Update hold cases
+            updateHoldCases(cases);
+            
+            // Update cancelled cases
+            updateCancelledCases(cases);
+        }
+        
+        // Update recent activity section
+        function updateRecentActivity(cases) {
+            const recentActivity = document.getElementById('recent-activity');
+            const recentCases = cases
+                .sort((a, b) => new Date(b.createdAt || b.timestamp || b.date) - new Date(a.createdAt || a.timestamp || a.date))
+                .slice(0, 5);
+            
+            if (recentCases.length === 0) {
+                recentActivity.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No Cases Found</h3>
+                        <p>No cases have been added to the system yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            recentActivity.innerHTML = recentCases.map(caseItem => `
+                <div class="case-item">
+                    <div class="case-info">
+                        <div class="case-id">${caseItem.caseId || caseItem.id || 'CP-' + caseItem.id.substring(0, 4)}</div>
+                        <div class="case-patient">Patient: ${caseItem.patientName || caseItem.patient || 'Unknown Patient'}</div>
+                        <div class="case-dentist">Dentist: ${caseItem.dentistName || caseItem.dentist || 'Unknown Dentist'}</div>
+                        <div class="case-dentist">Status: ${caseItem.status || 'Unknown Status'}</div>
+                    </div>
+                    <div class="case-actions">
+                        <button class="action-btn" title="View Details" onclick="viewCaseDetails('${caseItem.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update pending cases section
+        function updatePendingCases(cases) {
+            const pendingCasesList = document.getElementById('pending-cases-list');
+            const pendingCases = cases.filter(c => 
+                c.status === 'pending' || c.status === 'Pending' || 
+                c.status === 'pending upload' || c.status === 'Pending Upload'
+            );
+            
+            if (pendingCases.length === 0) {
+                pendingCasesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>No Pending Cases</h3>
+                        <p>All cases are up to date.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            pendingCasesList.innerHTML = pendingCases.map(caseItem => `
+                <div class="case-item">
+                    <div class="case-info">
+                        <div class="case-id">${caseItem.caseId || caseItem.id || 'CP-' + caseItem.id.substring(0, 4)}</div>
+                        <div class="case-patient">Patient: ${caseItem.patientName || caseItem.patient || 'Unknown Patient'}</div>
+                        <div class="case-dentist">Dentist: ${caseItem.dentistName || caseItem.dentist || 'Unknown Dentist'}</div>
+                    </div>
+                    <div class="case-status">
+                        <span class="status-badge status-pending">${caseItem.status || 'Pending'}</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="action-btn" title="View Details" onclick="viewCaseDetails('${caseItem.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Send Reminder" onclick="sendReminder('${caseItem.id}')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button class="action-btn" title="Contact Doctor" onclick="contactDoctor('${caseItem.dentistName || caseItem.dentist}')">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update revision cases section
+        function updateRevisionCases(cases) {
+            const revisionCasesList = document.getElementById('revision-cases-list');
+            const revisionCases = cases.filter(c => 
+                c.status === 'revision' || c.status === 'Revision' || 
+                c.status === 'revision requested' || c.status === 'Revision Requested'
+            );
+            
+            if (revisionCases.length === 0) {
+                revisionCasesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-redo"></i>
+                        <h3>No Revision Requests</h3>
+                        <p>No cases require revision at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            revisionCasesList.innerHTML = revisionCases.map(caseItem => `
+                <div class="case-item">
+                    <div class="case-info">
+                        <div class="case-id">${caseItem.caseId || caseItem.id || 'CP-' + caseItem.id.substring(0, 4)}</div>
+                        <div class="case-patient">Patient: ${caseItem.patientName || caseItem.patient || 'Unknown Patient'}</div>
+                        <div class="case-dentist">Dentist: ${caseItem.dentistName || caseItem.dentist || 'Unknown Dentist'}</div>
+                    </div>
+                    <div class="case-status">
+                        <span class="status-badge status-revision">${caseItem.status || 'Revision'}</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="action-btn" title="View Details" onclick="viewCaseDetails('${caseItem.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Process Revision" onclick="processRevision('${caseItem.id}')">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update hold cases section
+        function updateHoldCases(cases) {
+            const holdCasesList = document.getElementById('hold-cases-list');
+            const holdCases = cases.filter(c => 
+                c.status === 'hold' || c.status === 'Hold' || 
+                c.status === 'on hold' || c.status === 'On Hold'
+            );
+            
+            if (holdCases.length === 0) {
+                holdCasesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-pause-circle"></i>
+                        <h3>No Cases On Hold</h3>
+                        <p>No cases are currently on hold.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            holdCasesList.innerHTML = holdCases.map(caseItem => `
+                <div class="case-item">
+                    <div class="case-info">
+                        <div class="case-id">${caseItem.caseId || caseItem.id || 'CP-' + caseItem.id.substring(0, 4)}</div>
+                        <div class="case-patient">Patient: ${caseItem.patientName || caseItem.patient || 'Unknown Patient'}</div>
+                        <div class="case-dentist">Dentist: ${caseItem.dentistName || caseItem.dentist || 'Unknown Dentist'}</div>
+                    </div>
+                    <div class="case-status">
+                        <span class="status-badge status-hold">${caseItem.status || 'On Hold'}</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="action-btn" title="View Details" onclick="viewCaseDetails('${caseItem.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Resume Case" onclick="resumeCase('${caseItem.id}')">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update cancelled cases section
+        function updateCancelledCases(cases) {
+            const cancelledCasesList = document.getElementById('cancelled-cases-list');
+            const cancelledCases = cases.filter(c => 
+                c.status === 'cancelled' || c.status === 'Cancelled'
+            );
+            
+            if (cancelledCases.length === 0) {
+                cancelledCasesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-times-circle"></i>
+                        <h3>No Cancelled Cases</h3>
+                        <p>No cases have been cancelled.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cancelledCasesList.innerHTML = cancelledCases.map(caseItem => `
+                <div class="case-item">
+                    <div class="case-info">
+                        <div class="case-id">${caseItem.caseId || caseItem.id || 'CP-' + caseItem.id.substring(0, 4)}</div>
+                        <div class="case-patient">Patient: ${caseItem.patientName || caseItem.patient || 'Unknown Patient'}</div>
+                        <div class="case-dentist">Dentist: ${caseItem.dentistName || caseItem.dentist || 'Unknown Dentist'}</div>
+                    </div>
+                    <div class="case-status">
+                        <span class="status-badge status-cancelled">${caseItem.status || 'Cancelled'}</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="action-btn" title="View Details" onclick="viewCaseDetails('${caseItem.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Restore Case" onclick="restoreCase('${caseItem.id}')">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update messages with Firebase data
+        function updateMessagesWithFirebaseData(messages) {
+            const messagesList = document.getElementById('messages-list');
+            const unreadMessages = messages.filter(m => !m.read).length;
+            
+            // Update messages badge
+            document.getElementById('messages-badge').textContent = unreadMessages;
+            
+            if (messages.length === 0) {
+                messagesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h3>No Messages</h3>
+                        <p>No messages have been received yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            messagesList.innerHTML = messages.slice(0, 10).map(message => `
+                <div class="message-item ${message.read ? '' : 'unread'}">
+                    <div class="message-info">
+                        <div class="message-subject">${message.subject || 'No Subject'}</div>
+                        <div class="message-preview">${message.content ? message.content.substring(0, 100) + '...' : 'No content'}</div>
+                        <div class="message-sender">From: ${message.sender || 'Unknown Sender'} • ${formatDate(message.timestamp)}</div>
+                    </div>
+                    <div class="message-actions">
+                        <button class="action-btn" title="View Message" onclick="viewMessage('${message.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Reply" onclick="replyToMessage('${message.id}')">
+                            <i class="fas fa-reply"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update doctors with Firebase data
+        function updateDoctorsWithFirebaseData(doctors) {
+            const doctorsList = document.getElementById('doctors-list');
+            
+            if (doctors.length === 0) {
+                doctorsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>No Doctors</h3>
+                        <p>No doctors have been registered yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            doctorsList.innerHTML = doctors.map(doctor => `
+                <div class="doctor-item">
+                    <div class="doctor-info">
+                        <div class="doctor-name">${doctor.name || 'Unknown Doctor'}</div>
+                        <div class="doctor-specialty">${doctor.specialty || 'General Dentistry'}</div>
+                        <div class="doctor-email">${doctor.email || 'No email'}</div>
+                    </div>
+                    <div class="doctor-status">
+                        <span class="status-badge ${doctor.status === 'active' ? 'status-active' : 'status-inactive'}">
+                            ${doctor.status || 'inactive'}
+                        </span>
+                    </div>
+                    <div class="doctor-actions">
+                        <button class="action-btn" title="View Profile" onclick="viewDoctorProfile('${doctor.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Contact" onclick="contactDoctor('${doctor.name}')">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load settings from Firebase
+        async function loadSettings() {
+            try {
+                const querySnapshot = await getDocs(settingsCollection);
+                const settings = {};
+                
+                querySnapshot.forEach((doc) => {
+                    settings[doc.id] = doc.data();
+                });
+                
+                // Apply settings to UI
+                if (settings.clinicName) {
+                    document.getElementById('clinicName').value = settings.clinicName.value || '';
+                }
+                if (settings.refreshInterval) {
+                    document.getElementById('refreshInterval').value = settings.refreshInterval.value || '60000';
+                }
+                if (settings.emailNotifications) {
+                    document.getElementById('emailNotifications').checked = settings.emailNotifications.value || false;
+                }
+                if (settings.pushNotifications) {
+                    document.getElementById('pushNotifications').checked = settings.pushNotifications.value || false;
+                }
+                if (settings.caseUpdates) {
+                    document.getElementById('caseUpdates').checked = settings.caseUpdates.value || false;
+                }
+                
+            } catch (error) {
+                console.error("Error loading settings:", error);
+            }
+        }
+        
+        // Save system settings
+        async function saveSystemSettingsHandler() {
+            try {
+                const clinicName = document.getElementById('clinicName').value;
+                const refreshInterval = document.getElementById('refreshInterval').value;
+                
+                // Save to Firebase
+                await updateDoc(doc(settingsCollection, 'clinicName'), {
+                    value: clinicName,
+                    updatedAt: serverTimestamp()
+                });
+                
+                await updateDoc(doc(settingsCollection, 'refreshInterval'), {
+                    value: refreshInterval,
+                    updatedAt: serverTimestamp()
+                });
+                
+                showNotification('System settings saved successfully');
+            } catch (error) {
+                console.error("Error saving system settings:", error);
+                showNotification('Error saving system settings', 'error');
+            }
+        }
+        
+        // Save notification settings
+        async function saveNotificationSettingsHandler() {
+            try {
+                const emailNotifications = document.getElementById('emailNotifications').checked;
+                const pushNotifications = document.getElementById('pushNotifications').checked;
+                const caseUpdates = document.getElementById('caseUpdates').checked;
+                
+                // Save to Firebase
+                await updateDoc(doc(settingsCollection, 'emailNotifications'), {
+                    value: emailNotifications,
+                    updatedAt: serverTimestamp()
+                });
+                
+                await updateDoc(doc(settingsCollection, 'pushNotifications'), {
+                    value: pushNotifications,
+                    updatedAt: serverTimestamp()
+                });
+                
+                await updateDoc(doc(settingsCollection, 'caseUpdates'), {
+                    value: caseUpdates,
+                    updatedAt: serverTimestamp()
+                });
+                
+                showNotification('Notification settings saved successfully');
+            } catch (error) {
+                console.error("Error saving notification settings:", error);
+                showNotification('Error saving notification settings', 'error');
+            }
+        }
+        
+        // Setup refresh buttons
+        function setupRefreshButtons() {
+            const refreshButtons = [
+                refreshBtn, refreshPendingBtn, refreshRevisionBtn, 
+                refreshHoldBtn, refreshCancelledBtn, refreshMessagesBtn, refreshDoctorsBtn
+            ];
+            
+            refreshButtons.forEach(button => {
+                if (button) {
+                    button.addEventListener('click', function() {
+                        loadCasesFromFirebase();
+                        showNotification('Data refreshed successfully');
+                    });
+                }
+            });
+        }
+        
+        // Fallback to demo data
+        function loadDemoData() {
+            console.log("Loading demo data...");
+            const demoCases = [
+                {
+                    id: 'case1',
+                    caseId: 'CP-0012',
+                    patientName: 'Michael Brown',
+                    dentistName: 'Dr. Wilson',
+                    status: 'pending',
+                    createdAt: new Date()
+                },
+                {
+                    id: 'case2',
+                    caseId: 'CP-0011', 
+                    patientName: 'Sarah Johnson',
+                    dentistName: 'Dr. Anderson',
+                    status: 'revision',
+                    createdAt: new Date(Date.now() - 86400000)
+                },
+                {
+                    id: 'case3',
+                    caseId: 'CP-0010',
+                    patientName: 'Robert Davis',
+                    dentistName: 'Dr. Martinez',
+                    status: 'hold',
+                    createdAt: new Date(Date.now() - 172800000)
+                }
+            ];
+            
+            updateDashboardWithFirebaseData(demoCases);
+            showNotification("Using demo data - Firebase connection failed", "warning");
+        }
+        
+        // Utility functions
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Unknown date';
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+        
+        function viewCaseDetails(caseId) {
+            showNotification(`Viewing case details for ${caseId}`);
+            // In a real app, this would open a modal or navigate to case details
+        }
+        
+        function sendReminder(caseId) {
+            showNotification(`Reminder sent for case ${caseId}`);
+        }
+        
+        function contactDoctor(doctorName) {
+            showNotification(`Contacting ${doctorName}`);
+        }
+        
+        function processRevision(caseId) {
+            showNotification(`Processing revision for case ${caseId}`);
+        }
+        
+        function resumeCase(caseId) {
+            showNotification(`Resuming case ${caseId}`);
+        }
+        
+        function restoreCase(caseId) {
+            showNotification(`Restoring case ${caseId}`);
+        }
+        
+        function viewMessage(messageId) {
+            showNotification(`Viewing message ${messageId}`);
+        }
+        
+        function replyToMessage(messageId) {
+            showNotification(`Replying to message ${messageId}`);
+        }
+        
+        function viewDoctorProfile(doctorId) {
+            showNotification(`Viewing doctor profile ${doctorId}`);
+        }
+        
+        // Switch between sections
+        function switchSection(sectionId) {
+            // Hide all sections
+            dashboardSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update page title
+            const pageTitle = document.getElementById('pageTitle');
+            const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+            if (navItem) {
+                pageTitle.textContent = navItem.querySelector('span').textContent;
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            if (type === 'error') {
+                notification.classList.add('error');
+            } else if (type === 'warning') {
+                notification.classList.add('warning');
+            }
+            notification.classList.add('active');
+            
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 4000);
+        }
+        
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (unsubscribeCases) unsubscribeCases();
+            if (unsubscribeMessages) unsubscribeMessages();
+            if (unsubscribeDoctors) unsubscribeDoctors();
+        });
+    </script>
+</body>
+</html>
